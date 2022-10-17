@@ -30,7 +30,7 @@ for (let i = 1; i <= galleryItems.length; i++) {
 
     const galleryLink= document.createElement("a")
       galleryLink.classList.add("gallery__link");
-      galleryLink.href = `sha256-nMn34BfOxpKD0GwV5nZMwdS4e8SI8Ekz+G7dLeGE4XY=`
+      
       galleryItem.append(galleryLink)
 
 
