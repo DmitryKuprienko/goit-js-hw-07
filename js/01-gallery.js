@@ -14,24 +14,31 @@ import { galleryItems } from "./gallery-items.js";
 
 const galleryRef = document.querySelector(".gallery");
 const galleryMarkup = createsGalleryLayout(galleryItems);
-galleryRef.insertAdjacentHTML("afterbegin", galleryMarkup)
-galleryRef.addEventListener("click", onClickImg)
+galleryRef.insertAdjacentHTML("afterbegin", galleryMarkup);
+galleryRef.addEventListener("click", onClickImg);
 
 function onClickImg(event) {
-  event.preventDefault()
+  console.log(event)
+  event.preventDefault();
 
   if (event.target.nodeName !== "IMG") {
-   return  
+    return;
   }
 
-   const instance = basicLightbox.create(`
+  const instance = basicLightbox.create(`
         <div class="modal">
         <img src="${event.target.dataset.source}" width="800" height="600">
-        </div>`)
-        instance.show()
-     
-}
+        </div>`);
+  instance.show();
 
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      console.log(event.key)
+      instance.close()
+    }
+  });
+}
 
 function createsGalleryLayout(galleryItems) {
   return galleryItems
