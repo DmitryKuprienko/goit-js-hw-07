@@ -32,9 +32,8 @@ function onClickImg(event) {
   instance.show();
 
 
-  document.addEventListener("keydown", (event) => {
+  galleryRef.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
-      console.log(event.key)
       instance.close()
     }
   });
