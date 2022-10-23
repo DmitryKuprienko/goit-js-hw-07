@@ -10,7 +10,7 @@ galleryRef.addEventListener("click", onClickImg);
 
 
 let lightbox = new SimpleLightbox('.gallery a',{
-  captionData: "alt",
+  captionsData: "alt",
   captionDelay: 250,
     
 });

@@ -15,7 +15,7 @@ import { galleryItems } from "./gallery-items.js";
 const galleryRef = document.querySelector(".gallery");
 const galleryMarkup = createsGalleryLayout(galleryItems);
 galleryRef.insertAdjacentHTML("afterbegin", galleryMarkup);
-galleryRef.addEventListener("click", onClickImg);
+galleryRef.addEventListener("click", onClickImg, );
 
 function onClickImg(event) {
   console.log(event)
