@@ -32,7 +32,7 @@ function onClickImg(event) {
         </div>`,
     {
       onClose: (instance) => {
-        galleryRef.removeEventListener("keydown", onKeydownEscape);
+        window.removeEventListener("keydown", onKeydownEscape);
         console.log("Add listener2");
       },
     }
@@ -45,11 +45,11 @@ console.log(instance)
     if (event.key === "Escape") {
       console.log("Add listener");
       instance.close(
-        galleryRef.removeEventListener("keydown", onKeydownEscape)
+        window.removeEventListener("keydown", onKeydownEscape)
       );
     }
   }
-  galleryRef.addEventListener("keydown", onKeydownEscape);
+  window.addEventListener("keydown", onKeydownEscape);
 }
 
 function createsGalleryLayout(galleryItems) {
