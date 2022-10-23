@@ -15,28 +15,41 @@ import { galleryItems } from "./gallery-items.js";
 const galleryRef = document.querySelector(".gallery");
 const galleryMarkup = createsGalleryLayout(galleryItems);
 galleryRef.insertAdjacentHTML("afterbegin", galleryMarkup);
-galleryRef.addEventListener("click", onClickImg, );
+galleryRef.addEventListener("click", onClickImg);
 
 function onClickImg(event) {
-  console.log(event)
+  console.log(event);
   event.preventDefault();
 
   if (event.target.nodeName !== "IMG") {
     return;
   }
 
-  const instance = basicLightbox.create(`
+  const instance = basicLightbox.create(
+    `
         <div class="modal">
         <img src="${event.target.dataset.source}" width="800" height="600">
-        </div>`);
-  instance.show();
-
-
-  galleryRef.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      instance.close()
+        </div>`,
+    {
+      onClose: (instance) => {
+        galleryRef.removeEventListener("keydown", onKeydownEscape);
+        console.log("Add listener2");
+      },
     }
-  });
+  );
+  instance.show();
+console.log(instance)
+
+
+  function onKeydownEscape(event) {
+    if (event.key === "Escape") {
+      console.log("Add listener");
+      instance.close(
+        galleryRef.removeEventListener("keydown", onKeydownEscape)
+      );
+    }
+  }
+  galleryRef.addEventListener("keydown", onKeydownEscape);
 }
 
 function createsGalleryLayout(galleryItems) {
@@ -57,4 +70,3 @@ function createsGalleryLayout(galleryItems) {
 }
 
 console.log(galleryRef);
-// console.log(galleryItems.length);
