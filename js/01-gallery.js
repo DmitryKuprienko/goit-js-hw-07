@@ -1,24 +1,12 @@
 import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
-/* <div class="gallery__item">
-  <a class="gallery__link" href="large-image.jpg">
-    <img
-      class="gallery__image"
-      src="small-image.jpg"
-      data-source="large-image.jpg"
-      alt="Image description"
-    />
-  </a>
-</div> */
-
 const galleryRef = document.querySelector(".gallery");
 const galleryMarkup = createsGalleryLayout(galleryItems);
 galleryRef.insertAdjacentHTML("afterbegin", galleryMarkup);
 galleryRef.addEventListener("click", onClickImg);
 
 function onClickImg(event) {
-  console.log(event);
   event.preventDefault();
 
   if (event.target.nodeName !== "IMG") {
@@ -29,28 +17,34 @@ function onClickImg(event) {
     `
         <div class="modal">
         <img src="${event.target.dataset.source}" width="800" height="600">
-        </div>`,
-    {
-      onClose: (instance) => {
-        window.removeEventListener("keydown", onKeydownEscape);
-        console.log("Add listener2");
-      },
-    }
+        </div>`
+ 
   );
-  instance.show();
-console.log(instance)
-
+  instance.show(
+    document.addEventListener("keydown", onKeydownEscape),
+    document.addEventListener("click", onModalClick),
+    console.log(` вешаю  click and keydown`),
+  );
 
   function onKeydownEscape(event) {
     if (event.key === "Escape") {
-      console.log("Add listener");
-      instance.close(
-        window.removeEventListener("keydown", onKeydownEscape)
+     instance.close(
+        document.removeEventListener("keydown", onKeydownEscape),
+        document.removeEventListener("click", onModalClick),
+        console.log("Снемаю  keydown and click")
       );
     }
   }
-  window.addEventListener("keydown", onKeydownEscape);
+  function onModalClick(event) {
+    if (`DIV` === event.target.nodeName) {
+        document.removeEventListener("keydown", onKeydownEscape),
+        document.removeEventListener("click", onModalClick),
+        console.log("Снемаю  click and keydown")
+     
+    }
+  }
 }
+
 
 function createsGalleryLayout(galleryItems) {
   return galleryItems
@@ -69,4 +63,4 @@ function createsGalleryLayout(galleryItems) {
     .join("");
 }
 
-console.log(galleryRef);
+
