@@ -6,6 +6,8 @@ const galleryMarkup = createsGalleryLayout(galleryItems);
 galleryRef.insertAdjacentHTML("afterbegin", galleryMarkup);
 galleryRef.addEventListener("click", onClickImg);
 
+let instance = null
+
 function onClickImg(event) {
   event.preventDefault();
 
@@ -13,38 +15,36 @@ function onClickImg(event) {
     return;
   }
 
-  const instance = basicLightbox.create(
+  instance = basicLightbox.create(
     `
         <div class="modal">
         <img src="${event.target.dataset.source}" width="800" height="600">
-        </div>`
- 
-  );
-  instance.show(
-    document.addEventListener("keydown", onKeydownEscape),
-    document.addEventListener("click", onModalClick),
-    console.log(` вешаю  click and keydown`),
+        </div>`,
+
+    {
+      onShow() {
+        document.addEventListener("keydown", onKeydownEscape),
+          console.log(` вешаю  click and keydown`);
+      },
+
+      onClose() {
+        document.removeEventListener("keydown", onKeydownEscape)
+          
+      },
+    }
   );
 
-  function onKeydownEscape(event) {
-    if (event.key === "Escape") {
-     instance.close(
-        document.removeEventListener("keydown", onKeydownEscape),
-        document.removeEventListener("click", onModalClick),
-        console.log("Снемаю  keydown and click")
-      );
-    }
-  }
-  function onModalClick(event) {
-    if (`DIV` === event.target.nodeName) {
-        document.removeEventListener("keydown", onKeydownEscape),
-        document.removeEventListener("click", onModalClick),
-        console.log("Снемаю  click and keydown")
-     
-    }
+  instance.show();
+}
+console.log(instance)
+
+function onKeydownEscape(event) {
+  if (event.key === "Escape") {
+    instance.close(),
+
+    console.log("знімаю keydown and click");
   }
 }
-
 
 function createsGalleryLayout(galleryItems) {
   return galleryItems
@@ -62,5 +62,3 @@ function createsGalleryLayout(galleryItems) {
     )
     .join("");
 }
-
-
